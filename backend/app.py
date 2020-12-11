@@ -10,6 +10,7 @@ app = Flask(__name__, static_folder='dist')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config.update(dict(PREFERRED_URL_SCHEME = 'https'))
 # CORS(app)
 app.secret_key = secret
 # print(app.config)

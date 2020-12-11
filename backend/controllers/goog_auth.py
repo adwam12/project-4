@@ -55,7 +55,9 @@ def handle_google_calendar(id):
     print("<----------------------INFO END---------------------->")
     if i[0] == 'Unregistered':
       print("IT IS!!")
-      return flask.redirect(f'authorize')
+      # return flask.redirect(f'authorize')
+      return flask.redirect('https://project-4-rmbr.herokuapp.com/api/calendar_actions/authorize')
+
 
   result = db.engine.execute(f"""SELECT "google_Auth_Token" FROM users WHERE id = {id};""")
   for i in result:
@@ -78,11 +80,16 @@ def handle_google_calendar(id):
   # Save credentials back to session in case access token was refreshed.
  
   flask.session['credentials'] = credentials_to_dict(credentials)
+  print('_________________________PRINT TEST_____________')
+  print('event_request:', event_request)
+  print('_________________________PRINT TEST END_____________')
   print("USER TOKEN INFO", db.engine.execute(f"""UPDATE users SET "google_Auth_Token" = '{json.dumps(flask.session['credentials'])}' WHERE id = {id};"""))
 
   if event_request is not None:
     print('SUBMITTING TO CALENDAR...', event_request)
     event_request = service.events().insert(calendarId='primary', body=event_request).execute()
+    
+    
 
     add_event = service.events().insert(calendarId='primary', )
 
@@ -94,16 +101,14 @@ def handle_google_calendar(id):
       start = event['start'].get('dateTime', event['start'].get('date'))
       print(start, event['summary'])
 
-
-
-  return "Success", 200
+  return 'Successfully connected rmbr to your google calendar! You can close this tab now!', 200
 
 
 @router.route('/calendar_actions/authorize')
 def authorize():
-  id = flask.session['userID']
-  print('start flow')
   
+  print('start flow')
+  id = flask.session['userID']
   # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
   flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
       CLIENT_SECRETS_FILE, scopes=SCOPES)
@@ -111,7 +116,7 @@ def authorize():
   print(f'Current User ID: {id}')
 
 
-  flow.redirect_uri = flask.url_for(f'controllers.goog_auth.oauth2callback',  _external=True)
+  flow.redirect_uri = flask.url_for(f'controllers.goog_auth.oauth2callback',  _external=True, _scheme='https')
   # print('start flow3')
   print('redirect:', flow.redirect_uri)
   authorization_url, state = flow.authorization_url(
@@ -126,7 +131,7 @@ def authorize():
 
   print(flask.session)
   print(flask.session['userID'])
-  print(authorization_url)
+  print('_________AUTHORIZATION URL:_________', authorization_url)
   return (authorization_url)
   # return flask.redirect(authorization_url)
 
@@ -145,11 +150,14 @@ def oauth2callback():
 
   flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
       CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
-  flow.redirect_uri = flask.url_for('controllers.goog_auth.oauth2callback', _external=True)
+  flow.redirect_uri = flask.url_for('controllers.goog_auth.oauth2callback', _external=True, _scheme='https')
 
   # Use the authorization server's response to fetch the OAuth 2.0 tokens.
   authorization_response = flask.request.url
-  print(authorization_response)
+
+  authorization_response = authorization_response.replace('http', 'https')
+  print("|||||||||||||||||||AUTHORIZATION RESPONSE:|||||||||||||||||||", authorization_response)
+  print('|||||||||||||||||||AUTHORIZATION END|||||||||||||||||||')
   flow.fetch_token(authorization_response=authorization_response)
 
   # Store credentials in the session.
@@ -161,7 +169,7 @@ def oauth2callback():
   flask.session['credentials'] = credentials_to_dict(credentials)
   print("USER TOKEN INFO", db.engine.execute(f"""UPDATE users SET "google_Auth_Token" = '{json.dumps(flask.session['credentials'])}' WHERE id = {id};"""))
 
-  return flask.redirect(flask.url_for('controllers.goog_auth.handle_google_calendar', id= flask.session['userID']))
+  return flask.redirect(flask.url_for('controllers.goog_auth.handle_google_calendar', id= flask.session['userID'], _scheme='https',  _external=True))
 
 
 @router.route('/revoke')
@@ -228,8 +236,8 @@ if __name__ == '__main__':
   # When running locally, disable OAuthlib's HTTPs verification.
   # ACTION ITEM for developers:
   #     When running in production *do not* leave this option enabled.
-  os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+  # os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '0'
 
   # Specify a hostname and port that are set as a valid redirect URI
   # for your API project in the Google API Console.
-  app.run('localhost', 8080, debug=True)
+  app.run('localhost', 8080)

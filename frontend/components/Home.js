@@ -59,7 +59,7 @@ const Home = () => {
     name = name[0].toUpperCase() + name.slice(1)
     return name
   }
-  
+
   useEffect(() => {
     axios.post(NatLangUrl, {
       'encodingType': 'UTF8',
@@ -132,7 +132,7 @@ const Home = () => {
 
   // console.log(currentWant)
 
-  function addContactWant(id, want) {    
+  function addContactWant(id, want) {
     console.log('API | GET: grabbing specific contact')
     axios.get(`/api/contacts/${id}`, {
       headers: { Authorization: `Bearer ${token}` }
@@ -152,7 +152,11 @@ const Home = () => {
         })
         console.log('API | PUT: adding want to contact')
         console.log(`Added ${want} to ${resp.data['name']}'s wishlist`)
+        if ((wantsList.length > 1) || (currentWant.length > 1)){
+          setPrint(`Added multiple items to ${capitalizeFirstLetter(resp.data['name'])}'s Wishlist/Likes`)
+        }else{
         setPrint(`Added ${want[0]} to ${capitalizeFirstLetter(resp.data['name'])}'s Wishlist/Likes`)
+        }
       })
   }
 
@@ -170,7 +174,9 @@ const Home = () => {
         })
         console.log('API | PUT: adding birthday to contact')
         console.log(`Added ${birthday} to ${resp.data['name']}'s birthday info`)
-        setPrint(`Added ${birthday} to ${capitalizeFirstLetter(resp.data['name'])}'s birthday info`)
+        if (currentBirthday !== 'None') {
+          setPrint(`Added ${currentBirthday} to ${capitalizeFirstLetter(resp.data['name'])}'s birthday info`)
+        }
       })
   }
 
@@ -198,7 +204,7 @@ const Home = () => {
           addContactBirthday(response.data['id'], currentBirthday)
           // setPrint(`Created new contact - ${capitalizeFirstLetter(name)} - and added ${currentBirthday} to their birthday info`)
         }
-        
+
       })
   }
 
@@ -207,7 +213,7 @@ const Home = () => {
     axios.get(`/api/calendar_actions/${userId}`)
       .then((resp) => {
         console.log(resp.data)
-        if (resp.data !== 'Success') {
+        if (resp.data[0] !== 'S') {
           window.open(resp.data)
         }
       })
@@ -216,34 +222,38 @@ const Home = () => {
 
 
   function sendToCalendar() {
-    if (requestType.includes('BIRTHDAY')) {
+    console.log('WAS CALLED YAY')
+    if ((requestType.includes('BIRTHDAY')) && (currentBirthday !== 'None')) {
+      setTimeout(() => {
+        axios.get(`/api/calendar_actions/${userId}`)
+          .then((resp) => {
+            console.log('RESP DATA:', resp.data)
+            if (resp.data[0] === 'S') {
 
-      axios.get(`/api/calendar_actions/${userId}`)
-        .then((resp) => {
-          console.log(resp.data)
-          if (resp.data === 'Success') {
 
-            axios.post(`/api/calendar_actions/2`, {
-              'summary': `${capitalizeFirstLetter(currentContact)}'s birthday!`,
-              'description': `${currentContact}'s Wishlist: ${strTest}`,
-              'start': {
-                'dateTime': `2020-${birthdayMonth}-${birthdayDay}T14:30:00`,
-                'timeZone': 'Europe/Zurich'
-              },
-              'end': {
-                'dateTime': `2020-${birthdayMonth}-${birthdayDay}T17:00:00`,
-                'timeZone': 'Europe/Zurich'
-              },
-              'reminders': {
-                'useDefault': false,
-                'overrides': [
-                  { 'method': 'email', 'minutes': 40320 },
-                  { 'method': 'popup', 'minutes': 40320 }
-                ]
-              }
-            })
-          }
-        })
+              axios.post(`/api/calendar_actions/${userId}`, {
+                'summary': `${capitalizeFirstLetter(currentContact)}'s birthday!`,
+                'description': `${currentContact}'s Wishlist: ${strTest}`,
+                'start': {
+                  'dateTime': `2021-${birthdayMonth}-${birthdayDay}T14:30:00`,
+                  'timeZone': 'Europe/Zurich'
+                },
+                'end': {
+                  'dateTime': `2021-${birthdayMonth}-${birthdayDay}T17:00:00`,
+                  'timeZone': 'Europe/Zurich'
+                },
+                'reminders': {
+                  'useDefault': false,
+                  'overrides': [
+                    { 'method': 'email', 'minutes': 40320 },
+                    { 'method': 'popup', 'minutes': 40320 }
+                  ]
+                }
+              })
+            }
+          })
+      }, 2000)
+
     }
   }
 
@@ -437,7 +447,7 @@ const Home = () => {
             </div>
           </div>
 
-{/* ##* TESTING STUFF *## */}
+          {/* ##* TESTING STUFF *## */}
 
           {/* <div>
             <h1>Contact: {currentContact}</h1>

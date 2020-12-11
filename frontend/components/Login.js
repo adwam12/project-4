@@ -68,7 +68,7 @@ const Login = (props) => {
                 className="input"
               />
             </div>
-            <p className="help">Please enter your password</p>
+            <p className="help">Please enter your password above</p>
             {errorMessage !== '' && <p className="help" style={{ color: 'red' }}>
               {'Unable to log in, please check your username and password are correct'}
             </p>}
