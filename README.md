@@ -32,9 +32,10 @@ The final project at GA was to create a full-stack web application. This two-per
 ## Planning
 The first step of the process was to plan and outline all the desired features. We separated them into MVP (minimal viable product) and stretch goals. We then kept track of this document for a to-do list and to record bug fixes and our progress.
 
-![](images/Screen Shot 2021-01-06 at 1.23.45 PM.png)
+![](./images/Screen Shot 2021-01-06 at 1.23.45 PM.png)
 
-![](images/Screen Shot 2021-01-06 at 1.23.36 PM.png)
+![](/images/Screen Shot 2021-01-06 at 1.23.36 PM.png)
+
 ![](images/Screen Shot 2021-01-06 at 1.23.45 PM.png)
 ![](images/Screen Shot 2021-01-06 at 1.24.01 PM.png)
 
