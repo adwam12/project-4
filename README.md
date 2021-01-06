@@ -240,8 +240,11 @@ Once the user is authenticated, and we have permission to create events to their
 ## Screenshots
 ![](images/Screen Shot 2021-01-06 at 2.10.00 PM.png)
 ![](images/Screen Shot 2021-01-06 at 2.10.21 PM.png)
+
 ![](images/Screen Shot 2021-01-06 at 2.10.35 PM.png)
+
 ![](images/Screen Shot 2021-01-06 at 2.10.42 PM.png)
+
 ![](images/Screen Shot 2021-01-06 at 2.12.27 PM.png)
 ![](images/Screen Shot 2021-01-06 at 2.20.22 PM.png)
 ![](images/Screen Shot 2021-01-06 at 2.20.34 PM.png)
