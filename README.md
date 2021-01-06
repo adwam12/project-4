@@ -32,10 +32,10 @@ The final project at GA was to create a full-stack web application. This two-per
 ## Planning
 The first step of the process was to plan and outline all the desired features. We separated them into MVP (minimal viable product) and stretch goals. We then kept track of this document for a to-do list and to record bug fixes and our progress.
 
-![](images/Screen Shot 2021-01-06 at 1.23.19 PM.png)
-![](images/Screen Shot 2021-01-06 at 1.23.36 PM.png)
-![](images/Screen Shot 2021-01-06 at 1.23.45 PM.png)
-![](images/Screen Shot 2021-01-06 at 1.24.01 PM.png)
+![](images/wireframe1.png)
+![](images/wireframe2.png)
+![](images/wireframe3.png)
+![](images/wireframe4.png)
 
 ## Inner workings
 We needed some way of getting user input, and extracting and categorizing different words, such as names, dates, objects and interests. We found the Google Natural Language API to be perfect for this. We could feed it a string, and it would return an array with each word categorized. We could then take this string and format the info to fit our backend models:
@@ -238,10 +238,10 @@ Once the user is authenticated, and we have permission to create events to their
 	}
 
 ## Screenshots
-![](images/Screen Shot 2021-01-06 at 2.10.00 PM.png)
-![](images/Screen Shot 2021-01-06 at 2.10.21 PM.png)
-![](images/Screen Shot 2021-01-06 at 2.10.35 PM.png)
-![](images/Screen Shot 2021-01-06 at 2.10.42 PM.png)
-![](images/Screen Shot 2021-01-06 at 2.12.27 PM.png)
-![](images/Screen Shot 2021-01-06 at 2.20.22 PM.png)
-![](images/Screen Shot 2021-01-06 at 2.20.34 PM.png)
+![](images/pic1.png)
+![](images/auth1.png)
+![](images/auth2.png)
+![](images/auth3.png)
+![](images/pic3.png)
+![](images/pic5.png)
+![](images/pic6.png)
