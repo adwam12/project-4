@@ -1,7 +1,10 @@
 # Rmbr Assistant
+Made by [Florian Wilisch](https://github.com/florian-wilisch) and [Adam Lee Osgood](https://github.com/adwam12).
 
 ## Overview
 The final project at GA was to create a full-stack web application. This two-person, week-long project utilised a Python Flask RESTful API. Rmbr Assistant was born out of the idea that gift shopping for individuals is so hard. Everytime we think of a good gift idea, we forget about it by the time a birthday comes up. We wanted to create a voice assistant that could keep track of the individual likes and hobbies of an individual and remind you of them a month before a birthday.
+
+Link: [Rmbr](https://project-4-rmbr.herokuapp.com/)
 
 ## Technologies
 * React
@@ -236,6 +239,22 @@ Once the user is authenticated, and we have permission to create events to their
 
      }
 	}
+## Wins and Takeaways
+* Learning to use the Google APIs (Natural Language API)
+* Learning and implementing Auth 2.0 token flow
+* Automatic calendar event creation
+* Learning to implement and use an SQL database
+
+## Future Features
+* Adding non contact-driven reminders (remind me to do laundy)
+* Adding family connections (buy a gift for Elliot's daughter)
+* Adding last names
+	
+## Challenges
+* Extracting meaning from the prompt string
+* Implementing voice to text
+* Learning and applying Google Auth
+* Getting Google calendar access
 
 ## Screenshots
 ![](images/pic1.png)
